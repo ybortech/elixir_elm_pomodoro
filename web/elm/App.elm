@@ -20,14 +20,16 @@ view model =
             button [onClick StartTimer] [ text "Start Timer"]
           ]
         Started ->
-          div []
-            button [onClick StartTimer] [ text "Stop Timer"]
+          div [][
+            button [onClick StopTimer] [ text "Stop Timer"]
           ]
 
-type Msg = StartTimer
+type Msg = StartTimer | StopTimer
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         StartTimer ->
             {state = Started}
+        StopTimer ->
+            {state = Initial}
