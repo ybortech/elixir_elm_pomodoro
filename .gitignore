@@ -3,6 +3,7 @@
 /db
 /deps
 /*.ez
+/web/elm/elm-stuff
 
 # Generated on crash by the VM
 erl_crash.dump
