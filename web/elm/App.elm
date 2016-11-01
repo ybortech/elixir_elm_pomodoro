@@ -29,16 +29,19 @@ view model =
     case model.state of
         Initial ->
           div [][
+            div [] [text(toString model.elapsed_time)],
             button [onClick StartTimer] [ text "Start Timer"]
           ]
         Started ->
           div [][
             div [] [text(toString model.elapsed_time)],
-            button [onClick StopTimer] [ text "Stop Timer"]
+            button [onClick ResetTimer] [ text "Reset Timer"],
+            button [onClick PauseTimer] [ text "Pause Timer"]
           ]
 
 type Msg = StartTimer
-         | StopTimer
+         | ResetTimer
+         | PauseTimer
          | Tick Time
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -46,13 +49,17 @@ update msg model =
     case msg of
         StartTimer ->
             ({model | state = Started}, Cmd.none)
-        StopTimer ->
+        PauseTimer ->
+            ({model | state = Initial}, Cmd.none)
+        ResetTimer ->
             init
         Tick newtime ->
             if model.state == Initial then
                 (model, Cmd.none)
             else
               ({model | elapsed_time = model.elapsed_time + 1}, Cmd.none)
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Time.every second Tick
